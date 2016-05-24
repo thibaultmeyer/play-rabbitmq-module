@@ -33,7 +33,7 @@ import java.util.Map;
  * use a RabbitMQ message queues server.
  *
  * @author Thibault Meyer
- * @version 16.05.23
+ * @version 16.05.24
  * @since 16.05.19
  */
 public interface RabbitMQModule {
@@ -58,6 +58,24 @@ public interface RabbitMQModule {
     int getChannelMax();
 
     /**
+     * Get the number of messages left on the given queue.
+     *
+     * @param queueName The queue name
+     * @return The number of messages
+     * @since 16.05.23
+     */
+    long getMessageCount(final String queueName) throws IOException;
+
+    /**
+     * Get the number of consumers who use the given queue.
+     *
+     * @param queueName The queue name
+     * @return The number of consumers
+     * @since 16.05.23
+     */
+    long getConsumerCountCount(final String queueName) throws IOException;
+
+    /**
      * Get a new handle to a channel.
      *
      * @return The channel
@@ -68,9 +86,9 @@ public interface RabbitMQModule {
     /**
      * Get a new handle to a channel with a declared queue.
      *
-     * @param name The queue name
+     * @param queueName The queue name
      * @return The channel to the declared queue
      * @since 16.05.19
      */
-    Channel getChannel(final String name) throws IOException;
+    Channel getChannel(final String queueName) throws IOException;
 }

@@ -42,7 +42,7 @@ import java.util.concurrent.Executors;
  * Implementation of {@code RabbitMQModule}.
  *
  * @author Thibault Meyer
- * @version 16.05.19
+ * @version 16.05.24
  * @see RabbitMQModule
  * @since 16.03.19
  */
@@ -147,16 +147,26 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
     }
 
     @Override
+    public long getMessageCount(final String queueName) throws IOException {
+        return this.rabbitConnection.createChannel().messageCount(queueName);
+    }
+
+    @Override
+    public long getConsumerCountCount(final String queueName) throws IOException {
+        return this.rabbitConnection.createChannel().consumerCount(queueName);
+    }
+
+    @Override
     public Channel getChannel() throws IOException {
         return this.rabbitConnection.createChannel();
     }
 
     @Override
-    public Channel getChannel(final String name) throws IOException {
+    public Channel getChannel(final String queueName) throws IOException {
         final Channel channel = this.rabbitConnection.createChannel();
-        final String key = "rabbitmq.channels." + name.replace(" ", "_") + ".";
+        final String key = "rabbitmq.channels." + queueName.replace(" ", "_") + ".";
         channel.queueDeclare(
-                name,
+                queueName,
                 this.configuration.getBoolean(key + "durable", true),
                 this.configuration.getBoolean(key + "exclusive", false),
                 this.configuration.getBoolean(key + "autoDelete", false),
