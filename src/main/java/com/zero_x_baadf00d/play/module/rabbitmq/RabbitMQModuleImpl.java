@@ -42,7 +42,7 @@ import java.util.concurrent.Executors;
  * Implementation of {@code RabbitMQModule}.
  *
  * @author Thibault Meyer
- * @version 16.05.24
+ * @version 16.05.26
  * @see RabbitMQModule
  * @since 16.03.19
  */
@@ -82,6 +82,11 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
     private static final String RABBITMQ_EXECUTOR = "rabbitmq.conn.executorService";
 
     /**
+     * @since 16.05.26
+     */
+    private static final String RABBITMQ_AUTO_RECOVERY = "rabbitmq.conn.automaticRecovery";
+
+    /**
      * Play application configuration.
      *
      * @since 16.05.19
@@ -115,6 +120,7 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
             connectionFactory.setRequestedHeartbeat(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_HEARTBEAT, ConnectionFactory.DEFAULT_HEARTBEAT));
             connectionFactory.setNetworkRecoveryInterval(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_RECOVERY, 5000));
             connectionFactory.setConnectionTimeout(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_TIMEOUT, ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT));
+            connectionFactory.setAutomaticRecoveryEnabled(configuration.getBoolean(RabbitMQModuleImpl.RABBITMQ_AUTO_RECOVERY, false));
 
             final ExecutorService es = Executors.newFixedThreadPool(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_EXECUTOR, 20));
             this.rabbitConnection = connectionFactory.newConnection(es);

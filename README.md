@@ -33,6 +33,7 @@ RabbitMQ simple module for Play Framework 2
         networkRecoveryInterval = 5000
         connectionTimeOut = 30000
         executorService = 50
+        automaticRecovery = false
       }
 
       channels {
