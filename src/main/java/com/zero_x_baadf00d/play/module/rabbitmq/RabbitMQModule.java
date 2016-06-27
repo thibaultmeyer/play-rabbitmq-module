@@ -62,6 +62,7 @@ public interface RabbitMQModule {
      *
      * @param queueName The queue name
      * @return The number of messages
+     * @throws IOException when something goes wrong
      * @since 16.05.23
      */
     long getMessageCount(final String queueName) throws IOException;
@@ -71,6 +72,7 @@ public interface RabbitMQModule {
      *
      * @param queueName The queue name
      * @return The number of consumers
+     * @throws IOException when something goes wrong
      * @since 16.05.23
      */
     long getConsumerCountCount(final String queueName) throws IOException;
@@ -79,6 +81,7 @@ public interface RabbitMQModule {
      * Get a new handle to a channel.
      *
      * @return The channel
+     * @throws IOException when something goes wrong
      * @since 16.05.19
      */
     Channel getChannel() throws IOException;
@@ -88,6 +91,7 @@ public interface RabbitMQModule {
      *
      * @param queueName The queue name
      * @return The channel to the declared queue
+     * @throws IOException when something goes wrong
      * @since 16.05.19
      */
     Channel getChannel(final String queueName) throws IOException;
