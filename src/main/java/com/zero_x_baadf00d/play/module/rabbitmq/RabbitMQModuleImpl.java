@@ -42,7 +42,7 @@ import java.util.concurrent.Executors;
  * Implementation of {@code RabbitMQModule}.
  *
  * @author Thibault Meyer
- * @version 16.05.26
+ * @version 16.09.06
  * @see RabbitMQModule
  * @since 16.03.19
  */
@@ -85,6 +85,11 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
      * @since 16.05.26
      */
     private static final String RABBITMQ_AUTO_RECOVERY = "rabbitmq.conn.automaticRecovery";
+
+    /**
+     * @since 16.09.06
+     */
+    private static final String RABBITMQ_BYPASS_ERROR = "rabbitmq.conn.bypassInitError";
 
     /**
      * Play application configuration.
@@ -131,8 +136,12 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
                     connectionFactory.getVirtualHost())
             );
         } catch (Exception ex) {
-            RabbitMQModuleImpl.LOGGER.error("Can't initialize RabbitMQ module", ex);
-            throw new RuntimeException(ex);
+            if (!this.configuration.getBoolean(RabbitMQModuleImpl.RABBITMQ_BYPASS_ERROR, false)) {
+                RabbitMQModuleImpl.LOGGER.error("Can't initialize RabbitMQ module", ex);
+                throw new RuntimeException(ex);
+            } else {
+                RabbitMQModuleImpl.LOGGER.warn("Can't initialize RabbitMQ module", ex);
+            }
         }
 
         lifecycle.addStopHook(() -> {
