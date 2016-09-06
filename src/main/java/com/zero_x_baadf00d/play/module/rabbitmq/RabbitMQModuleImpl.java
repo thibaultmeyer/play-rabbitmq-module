@@ -136,6 +136,7 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
                     connectionFactory.getVirtualHost())
             );
         } catch (Exception ex) {
+            this.rabbitConnection = null;
             if (!this.configuration.getBoolean(RabbitMQModuleImpl.RABBITMQ_BYPASS_ERROR, false)) {
                 RabbitMQModuleImpl.LOGGER.error("Can't initialize RabbitMQ module", ex);
                 throw new RuntimeException(ex);
@@ -153,31 +154,49 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
 
     @Override
     public Map<String, Object> getServerProperties() {
+        if (this.rabbitConnection == null) {
+            return null;
+        }
         return this.rabbitConnection.getServerProperties();
     }
 
     @Override
     public int getChannelMax() {
+        if (this.rabbitConnection == null) {
+            return 0;
+        }
         return this.rabbitConnection.getChannelMax();
     }
 
     @Override
     public long getMessageCount(final String queueName) throws IOException {
+        if (this.rabbitConnection == null) {
+            return 0;
+        }
         return this.rabbitConnection.createChannel().messageCount(queueName);
     }
 
     @Override
     public long getConsumerCountCount(final String queueName) throws IOException {
+        if (this.rabbitConnection == null) {
+            return 0;
+        }
         return this.rabbitConnection.createChannel().consumerCount(queueName);
     }
 
     @Override
     public Channel getChannel() throws IOException {
+        if (this.rabbitConnection == null) {
+            return null;
+        }
         return this.rabbitConnection.createChannel();
     }
 
     @Override
     public Channel getChannel(final String queueName) throws IOException {
+        if (this.rabbitConnection == null) {
+            return null;
+        }
         final Channel channel = this.rabbitConnection.createChannel();
         final String key = "rabbitmq.channels." + queueName.replace(" ", "_") + ".";
         channel.queueDeclare(
