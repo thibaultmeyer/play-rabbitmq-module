@@ -147,7 +147,9 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
 
         lifecycle.addStopHook(() -> {
             RabbitMQModuleImpl.LOGGER.info("Shutting down RabbitMQ");
-            this.rabbitConnection.close();
+            if (this.rabbitConnection != null) {
+                this.rabbitConnection.close();
+            }
             return CompletableFuture.completedFuture(null);
         });
     }
