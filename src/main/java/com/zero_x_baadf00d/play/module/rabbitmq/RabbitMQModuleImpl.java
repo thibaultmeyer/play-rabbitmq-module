@@ -129,11 +129,14 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
 
             final ExecutorService es = Executors.newFixedThreadPool(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_EXECUTOR, 20));
             this.rabbitConnection = connectionFactory.newConnection(es);
-            RabbitMQModuleImpl.LOGGER.info("RabbitMQ connected at {}", String.format(
+            RabbitMQModuleImpl.LOGGER.info(
+                "RabbitMQ connected at {}",
+                String.format(
                     "amqp://%s:%d/%s",
                     connectionFactory.getHost(),
                     connectionFactory.getPort(),
-                    connectionFactory.getVirtualHost())
+                    connectionFactory.getVirtualHost()
+                )
             );
         } catch (Exception ex) {
             this.rabbitConnection = null;
@@ -141,7 +144,7 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
                 RabbitMQModuleImpl.LOGGER.error("Can't initialize RabbitMQ module", ex);
                 throw new RuntimeException(ex);
             } else {
-                RabbitMQModuleImpl.LOGGER.warn("Can't initialize RabbitMQ module", ex);
+                RabbitMQModuleImpl.LOGGER.warn("Can't initialize RabbitMQ module: {}", ex.getMessage());
             }
         }
 
@@ -202,11 +205,11 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
         final Channel channel = this.rabbitConnection.createChannel();
         final String key = "rabbitmq.channels." + queueName.replace(" ", "_") + ".";
         channel.queueDeclare(
-                queueName,
-                this.configuration.getBoolean(key + "durable", true),
-                this.configuration.getBoolean(key + "exclusive", false),
-                this.configuration.getBoolean(key + "autoDelete", false),
-                null
+            queueName,
+            this.configuration.getBoolean(key + "durable", true),
+            this.configuration.getBoolean(key + "exclusive", false),
+            this.configuration.getBoolean(key + "autoDelete", false),
+            null
         );
         return channel;
     }
