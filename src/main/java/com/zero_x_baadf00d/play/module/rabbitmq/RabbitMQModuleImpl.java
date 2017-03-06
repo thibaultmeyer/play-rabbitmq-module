@@ -33,6 +33,7 @@ import play.inject.ApplicationLifecycle;
 
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -42,7 +43,7 @@ import java.util.concurrent.Executors;
  * Implementation of {@code RabbitMQModule}.
  *
  * @author Thibault Meyer
- * @version 16.09.06
+ * @version 17.03.06
  * @see RabbitMQModule
  * @since 16.03.19
  */
@@ -126,6 +127,9 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
             connectionFactory.setNetworkRecoveryInterval(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_RECOVERY, 5000));
             connectionFactory.setConnectionTimeout(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_TIMEOUT, ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT));
             connectionFactory.setAutomaticRecoveryEnabled(configuration.getBoolean(RabbitMQModuleImpl.RABBITMQ_AUTO_RECOVERY, false));
+            if (uri.toLowerCase(Locale.ENGLISH).startsWith("amqps://")) {
+                connectionFactory.useSslProtocol();
+            }
 
             final ExecutorService es = Executors.newFixedThreadPool(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_EXECUTOR, 20));
             this.rabbitConnection = connectionFactory.newConnection(es);
