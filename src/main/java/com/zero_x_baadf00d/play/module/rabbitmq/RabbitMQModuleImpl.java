@@ -136,7 +136,8 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
             RabbitMQModuleImpl.LOGGER.info(
                 "RabbitMQ connected at {}",
                 String.format(
-                    "amqp://%s:%d/%s",
+                    "amqp%s://%s:%d/%s",
+                    connectionFactory.isSSL() ? "s" : "",
                     connectionFactory.getHost(),
                     connectionFactory.getPort(),
                     connectionFactory.getVirtualHost()
