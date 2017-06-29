@@ -23,14 +23,14 @@
  */
 package com.zero_x_baadf00d.play.module.rabbitmq;
 
-import com.google.inject.Inject;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import play.Configuration;
+import com.typesafe.config.Config;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.Locale;
@@ -43,7 +43,7 @@ import java.util.concurrent.Executors;
  * Implementation of {@code RabbitMQModule}.
  *
  * @author Thibault Meyer
- * @version 17.03.06
+ * @version 17.06.29
  * @see RabbitMQModule
  * @since 16.03.19
  */
@@ -97,7 +97,7 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
      *
      * @since 16.05.19
      */
-    private final Configuration configuration;
+    private final Config configuration;
 
     /**
      * Connection to the RabbitMQ server.
@@ -114,7 +114,7 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
      * @since 16.05.19
      */
     @Inject
-    public RabbitMQModuleImpl(final ApplicationLifecycle lifecycle, final Configuration configuration) {
+    public RabbitMQModuleImpl(final ApplicationLifecycle lifecycle, final Config configuration) {
         this.configuration = configuration;
         try {
             final String uri = configuration.getString(RabbitMQModuleImpl.RABBITMQ_CONN_URI);
@@ -123,15 +123,15 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
             }
             final ConnectionFactory connectionFactory = new ConnectionFactory();
             connectionFactory.setUri(uri);
-            connectionFactory.setRequestedHeartbeat(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_HEARTBEAT, ConnectionFactory.DEFAULT_HEARTBEAT));
-            connectionFactory.setNetworkRecoveryInterval(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_RECOVERY, 5000));
-            connectionFactory.setConnectionTimeout(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_TIMEOUT, ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT));
-            connectionFactory.setAutomaticRecoveryEnabled(configuration.getBoolean(RabbitMQModuleImpl.RABBITMQ_AUTO_RECOVERY, false));
+            connectionFactory.setRequestedHeartbeat(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_HEARTBEAT));
+            connectionFactory.setNetworkRecoveryInterval(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_RECOVERY));
+            connectionFactory.setConnectionTimeout(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_CONN_TIMEOUT));
+            connectionFactory.setAutomaticRecoveryEnabled(configuration.getBoolean(RabbitMQModuleImpl.RABBITMQ_AUTO_RECOVERY));
             if (uri.toLowerCase(Locale.ENGLISH).startsWith("amqps://")) {
                 connectionFactory.useSslProtocol();
             }
 
-            final ExecutorService es = Executors.newFixedThreadPool(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_EXECUTOR, 20));
+            final ExecutorService es = Executors.newFixedThreadPool(configuration.getInt(RabbitMQModuleImpl.RABBITMQ_EXECUTOR));
             this.rabbitConnection = connectionFactory.newConnection(es);
             RabbitMQModuleImpl.LOGGER.info(
                 "RabbitMQ connected at {}",
@@ -145,7 +145,7 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
             );
         } catch (Exception ex) {
             this.rabbitConnection = null;
-            if (!this.configuration.getBoolean(RabbitMQModuleImpl.RABBITMQ_BYPASS_ERROR, false)) {
+            if (!this.configuration.getBoolean(RabbitMQModuleImpl.RABBITMQ_BYPASS_ERROR)) {
                 RabbitMQModuleImpl.LOGGER.error("Can't initialize RabbitMQ module", ex);
                 throw new RuntimeException(ex);
             } else {
@@ -211,9 +211,9 @@ public class RabbitMQModuleImpl implements RabbitMQModule {
         final String key = "rabbitmq.channels." + queueName.replace(" ", "_") + ".";
         channel.queueDeclare(
             queueName,
-            this.configuration.getBoolean(key + "durable", true),
-            this.configuration.getBoolean(key + "exclusive", false),
-            this.configuration.getBoolean(key + "autoDelete", false),
+            !this.configuration.hasPath(key + "durable") || this.configuration.getBoolean(key + "durable"),
+            this.configuration.hasPath(key + "exclusive") && this.configuration.getBoolean(key + "exclusive"),
+            this.configuration.hasPath(key + "autoDelete") && this.configuration.getBoolean(key + "autoDelete"),
             null
         );
         return channel;
