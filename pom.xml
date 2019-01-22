@@ -6,7 +6,7 @@
 
     <groupId>com.zero_x_baadf00d</groupId>
     <artifactId>play-rabbitmq-module</artifactId>
-    <version>18.07</version>
+    <version>19.01</version>
     <name>Play RabbitMQ module</name>
     <description>RabbitMQ module for Play Framework 2</description>
     <url>https://github.com/0xbaadf00d/play-rabbitmq-module</url>
@@ -120,12 +120,12 @@
         <dependency>
             <groupId>com.rabbitmq</groupId>
             <artifactId>amqp-client</artifactId>
-            <version>5.3.0</version>
+            <version>5.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.play</groupId>
             <artifactId>play_2.12</artifactId>
-            <version>2.6.15</version>
+            <version>2.6.20</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
