@@ -9,23 +9,23 @@
     <version>19.01</version>
     <name>Play RabbitMQ module</name>
     <description>RabbitMQ module for Play Framework 2</description>
-    <url>https://github.com/0xbaadf00d/play-rabbitmq-module</url>
+    <url>https://github.com/thibaultmeyer/play-rabbitmq-module</url>
 
     <scm>
-        <connection>scm:git:https://github.com/0xbaadf00d/play-rabbitmq-module.git</connection>
-        <developerConnection>scm:git:https://github.com/0xbaadf00d/play-rabbitmq-module.git</developerConnection>
-        <url>https://github.com/0xbaadf00d/play-rabbitmq-module.git</url>
+        <connection>scm:git:https://github.com/thibaultmeyer/play-rabbitmq-module.git</connection>
+        <developerConnection>scm:git:https://github.com/thibaultmeyer/play-rabbitmq-module.git</developerConnection>
+        <url>https://github.com/thibaultmeyer/play-rabbitmq-module.git</url>
     </scm>
 
     <issueManagement>
-        <url>https://github.com/0xbaadf00d/play-rabbitmq-module/issues</url>
+        <url>https://github.com/thibaultmeyer/play-rabbitmq-module/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
     <licenses>
         <license>
             <name>The MIT License (MIT)</name>
-            <url>https://raw.githubusercontent.com/0xbaadf00d/play-rabbitmq-module/master/LICENSE</url>
+            <url>https://raw.githubusercontent.com/thibaultmeyer/play-rabbitmq-module/master/LICENSE</url>
         </license>
     </licenses>
 

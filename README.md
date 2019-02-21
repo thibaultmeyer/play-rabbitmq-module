@@ -1,10 +1,10 @@
 # Play RabbitMQ Module
 
 
-[![Latest release](https://img.shields.io/badge/latest_release-19.01-orange.svg)](https://github.com/0xbaadf00d/play-rabbitmq-module/releases)
-[![JitPack](https://jitpack.io/v/0xbaadf00d/play-rabbitmq-module.svg)](https://jitpack.io/#0xbaadf00d/play-rabbitmq-module)
-[![Build](https://img.shields.io/travis-ci/0xbaadf00d/play-rabbitmq-module.svg?branch=master&style=flat)](https://travis-ci.org/0xbaadf00d/play-rabbitmq-module)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/0xbaadf00d/play-rabbitmq-module/master/LICENSE)
+[![Latest release](https://img.shields.io/badge/latest_release-19.01-orange.svg)](https://github.com/thibaultmeyer/play-rabbitmq-module/releases)
+[![JitPack](https://jitpack.io/v/thibaultmeyer/play-rabbitmq-module.svg)](https://jitpack.io/#thibaultmeyer/play-rabbitmq-module)
+[![Build](https://api.travis-ci.org/thibaultmeyer/play-rabbitmq-module.svg)](https://travis-ci.org/thibaultmeyer/play-rabbitmq-module)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/thibaultmeyer/play-rabbitmq-module/master/LICENSE)
 
 RabbitMQ simple module for Play Framework 2
 *****
@@ -15,7 +15,7 @@ RabbitMQ simple module for Play Framework 2
 
     resolvers += "jitpack" at "https://jitpack.io"
 
-    libraryDependencies += "com.github.0xbaadf00d" % "play-rabbitmq-module" % "release~YY.MM"
+    libraryDependencies += "com.github.thibaultmeyer" % "play-rabbitmq-module" % "release~YY.MM"
 
 #### application.conf
 
@@ -53,4 +53,4 @@ RabbitMQ simple module for Play Framework 2
 
 
 ## License
-This project is released under terms of the [MIT license](https://raw.githubusercontent.com/0xbaadf00d/play-rabbitmq-module/master/LICENSE).
+This project is released under terms of the [MIT license](https://raw.githubusercontent.com/thibaultmeyer/play-rabbitmq-module/master/LICENSE).
