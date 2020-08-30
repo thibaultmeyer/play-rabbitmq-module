@@ -1,7 +1,7 @@
 # Play RabbitMQ Module
 
 
-[![Latest release](https://img.shields.io/badge/latest_release-19.01-orange.svg)](https://github.com/thibaultmeyer/play-rabbitmq-module/releases)
+[![Latest release](https://img.shields.io/badge/latest_release-20.08-orange.svg)](https://github.com/thibaultmeyer/play-rabbitmq-module/releases)
 [![JitPack](https://jitpack.io/v/thibaultmeyer/play-rabbitmq-module.svg)](https://jitpack.io/#thibaultmeyer/play-rabbitmq-module)
 [![Build](https://api.travis-ci.org/thibaultmeyer/play-rabbitmq-module.svg)](https://travis-ci.org/thibaultmeyer/play-rabbitmq-module)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/thibaultmeyer/play-rabbitmq-module/master/LICENSE)
